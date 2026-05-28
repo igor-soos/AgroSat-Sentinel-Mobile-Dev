@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS properties (
+  id TEXT PRIMARY KEY,
+  userId TEXT NOT NULL,
+  name TEXT NOT NULL,
+  area REAL NOT NULL,
+  latitude REAL NOT NULL,
+  longitude REAL NOT NULL,
+  crops TEXT,
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_properties_userId ON properties(userId);
