@@ -15,8 +15,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const bootstrapAsync = async () => {
     try {
+      // Carregar AMBOS token e userData para confirmar que o usuário está autenticado
+      const token = await storageService.getUserToken();
       const userData = await storageService.getUserData();
-      if (userData) {
+      
+      if (token && userData) {
         setUser(userData);
       }
     } catch (error) {

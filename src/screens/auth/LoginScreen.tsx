@@ -6,7 +6,6 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '@/utils/colors';
@@ -23,7 +22,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ email?: string; password?: string; server?: string }>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { login, isLoading } = useAuth();
 
   const validateForm = (): boolean => {
@@ -46,12 +46,25 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   };
 
   const handleLogin = async () => {
+    // Limpar erro anterior
+    setErrors((prev) => ({ ...prev, server: undefined }));
+
     if (!validateForm()) return;
 
     try {
+      setIsSubmitting(true);
       await login(email, password);
     } catch (error: any) {
-      Alert.alert('Erro', error.message || 'Erro ao fazer login');
+      const errorMessage = error.response?.data?.message || 
+                          error.message || 
+                          'Email ou senha incorretos';
+      
+      setErrors((prev) => ({ 
+        ...prev, 
+        server: errorMessage 
+      }));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -74,35 +87,50 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               Faça login para acessar seus alertas
             </Text>
 
+            {errors.server && (
+              <View style={styles.errorContainer}>
+                <Text style={styles.errorText}>⚠️ {errors.server}</Text>
+              </View>
+            )}
+
             <TextInput
               label="Email"
               placeholder="seu@email.com"
               value={email}
-              onChangeText={setEmail}
+              onChangeText={(text) => {
+                setEmail(text);
+                setErrors((prev) => ({ ...prev, email: undefined }));
+              }}
               icon="mail"
               keyboardType="email-address"
               autoCapitalize="none"
               error={errors.email}
+              editable={!isSubmitting}
             />
 
             <TextInput
               label="Senha"
               placeholder="Sua senha"
               value={password}
-              onChangeText={setPassword}
+              onChangeText={(text) => {
+                setPassword(text);
+                setErrors((prev) => ({ ...prev, password: undefined }));
+              }}
               icon="lock-closed"
               secureTextEntry
               showPassword={showPassword}
               onTogglePassword={() => setShowPassword(!showPassword)}
               error={errors.password}
+              editable={!isSubmitting}
             />
 
             <Button
               label="Entrar"
               onPress={handleLogin}
               size="large"
-              loading={isLoading}
+              loading={isSubmitting}
               style={styles.loginButton}
+              disabled={isSubmitting}
             />
 
             <Text style={styles.separator}>ou</Text>
@@ -113,6 +141,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               variant="outline"
               size="large"
               style={styles.registerButton}
+              disabled={isSubmitting}
             />
           </View>
 
@@ -173,6 +202,20 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.gray,
     marginBottom: 24,
+  },
+  errorContainer: {
+    backgroundColor: 'rgba(220, 53, 69, 0.1)',
+    borderLeftWidth: 4,
+    borderLeftColor: '#dc3545',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderRadius: 4,
+    marginBottom: 16,
+  },
+  errorText: {
+    color: '#ff6b6b',
+    fontSize: 13,
+    fontWeight: '500',
   },
   loginButton: {
     marginTop: 8,
