@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
 import { query, queryOne, execute } from '@/database/db';
 import { Alert, CreateAlertRequest, UpdateAlertRequest } from '@/models/Alert';
 import { NotFoundError } from '@/utils/errors';

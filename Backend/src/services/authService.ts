@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { v4 as uuidv4 } from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
 import { query, queryOne, execute } from '@/database/db';
 import { User, UserResponse, RegisterRequest, LoginRequest, AuthResponse } from '@/models/User';
 import { tokenService } from './tokenService';

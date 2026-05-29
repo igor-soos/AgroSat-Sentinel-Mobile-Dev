@@ -2,7 +2,7 @@ import { apiClient } from './api';
 import { storageService } from './storageService';
 import { User, LoginRequest, RegisterRequest, AuthResponse } from '@/types';
 
-class AuthService {
+export class AuthService {
   async login(email: string, password: string): Promise<AuthResponse> {
     try {
       const response = await apiClient.post<AuthResponse>('/auth/login', {
@@ -12,6 +12,7 @@ class AuthService {
 
       const { token, user } = response.data;
 
+      // Salva token e dados do usuário
       await storageService.setUserToken(token);
       await storageService.setUserData(user);
 
@@ -28,6 +29,7 @@ class AuthService {
 
       const { token, user } = response.data;
 
+      // Salva token e dados do usuário
       await storageService.setUserToken(token);
       await storageService.setUserData(user);
 
@@ -40,30 +42,20 @@ class AuthService {
 
   async logout(): Promise<void> {
     try {
-      // Call backend logout endpoint if needed
+      // Chama endpoint de logout no backend
       await apiClient.post('/auth/logout', {});
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
+      // Limpa dados locais mesmo se o backend falhar
       await storageService.clearAll();
-    }
-  }
-
-  async refreshToken(): Promise<string> {
-    try {
-      const response = await apiClient.post<{ token: string }>('/auth/refresh', {});
-      const { token } = response.data;
-      await storageService.setUserToken(token);
-      return token;
-    } catch (error) {
-      console.error('Refresh token error:', error);
-      throw error;
     }
   }
 
   async getCurrentUser(): Promise<User | null> {
     try {
-      return await storageService.getUserData();
+      const response = await apiClient.get<User>('/auth/me');
+      return response.data;
     } catch (error) {
       console.error('Get current user error:', error);
       return null;

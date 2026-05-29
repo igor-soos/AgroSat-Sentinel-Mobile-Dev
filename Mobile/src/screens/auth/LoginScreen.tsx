@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '@/utils/colors';
 import TextInput from '@/components/common/TextInput';
@@ -24,7 +25,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string; server?: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { login, isLoading } = useAuth();
+  const { login } = useAuth();
 
   const validateForm = (): boolean => {
     const newErrors: typeof errors = {};
@@ -54,10 +55,12 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     try {
       setIsSubmitting(true);
       await login(email, password);
+      // Se chegou aqui, login foi bem-sucedido e o navigation vai redirecionar automaticamente
     } catch (error: any) {
-      const errorMessage = error.response?.data?.message || 
-                          error.message || 
-                          'Email ou senha incorretos';
+      const errorMessage = 
+        error.response?.data?.error || 
+        error.message || 
+        'Email ou senha incorretos';
       
       setErrors((prev) => ({ 
         ...prev, 

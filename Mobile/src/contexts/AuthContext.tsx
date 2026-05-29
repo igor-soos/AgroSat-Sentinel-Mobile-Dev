@@ -13,12 +13,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     bootstrapAsync();
   }, []);
 
+  // Verificar se tem token e dados salvos ao abrir a app
   const bootstrapAsync = async () => {
     try {
-      // Carregar AMBOS token e userData para confirmar que o usuário está autenticado
       const token = await storageService.getUserToken();
       const userData = await storageService.getUserData();
       
+      // Se tem ambos, restaura a sessão
       if (token && userData) {
         setUser(userData);
       }

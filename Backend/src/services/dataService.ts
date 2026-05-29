@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
 import { query, queryOne, execute } from '@/database/db';
 import { NDVIData, CreateNDVIDataRequest } from '@/models/NDVIData';
 import { ThermalAnomaly, CreateThermalAnomalyRequest } from '@/models/ThermalAnomaly';

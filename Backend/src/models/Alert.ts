@@ -29,4 +29,6 @@ export interface CreateAlertRequest {
   confidence: number;
 }
 
-export interface UpdateAlertRequest extends Partial<Omit<CreateAlertRequest, 'propertyId'>> {}
+export interface UpdateAlertRequest extends Partial<Omit<CreateAlertRequest, 'propertyId'>> {
+  status?: Alert['status'];
+}

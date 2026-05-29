@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import { UnauthorizedError } from '@/utils/errors';
 
 export interface TokenPayload {
@@ -11,13 +11,13 @@ export class TokenService {
   generateAccessToken(payload: TokenPayload): string {
     return jwt.sign(payload, process.env.JWT_SECRET || 'secret', {
       expiresIn: process.env.JWT_EXPIRES_IN || '24h',
-    });
+    } as SignOptions);
   }
 
   generateRefreshToken(payload: TokenPayload): string {
     return jwt.sign(payload, process.env.JWT_REFRESH_SECRET || 'refresh_secret', {
       expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
-    });
+    } as SignOptions);
   }
 
   verifyAccessToken(token: string): TokenPayload {
