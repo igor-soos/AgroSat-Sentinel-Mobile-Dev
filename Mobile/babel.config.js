@@ -11,7 +11,12 @@ module.exports = function(api) {
           },
         },
       ],
-      'react-native-reanimated/plugin',
+      [
+        'react-native-reanimated/plugin',
+        {
+          processNestedWorklets: false, // Evita que o Babel procure o pacote nativo de worklets na Web
+        },
+      ],
     ],
   };
 };
