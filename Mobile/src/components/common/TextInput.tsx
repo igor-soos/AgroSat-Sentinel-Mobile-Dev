@@ -1,36 +1,33 @@
 import React from 'react';
-import { View, TextInput as RNTextInput, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { 
+  View, 
+  TextInput as RNTextInput, 
+  TextInputProps as RNTextInputProps, 
+  Text, 
+  StyleSheet, 
+  TouchableOpacity 
+} from 'react-native';
 import { colors } from '@/utils/colors';
 import { Ionicons } from '@expo/vector-icons';
-
-interface TextInputProps {
+interface TextInputProps extends RNTextInputProps {
   label?: string;
-  placeholder?: string;
-  value: string;
-  onChangeText: (text: string) => void;
   icon?: any; 
-  secureTextEntry?: boolean;
   showPassword?: boolean;
   onTogglePassword?: () => void;
   error?: string;
-  keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
-  editable?: boolean;
-  style?: any;
+  // Removi placeholder, value, onChangeText, editable, etc. daqui, 
+  // pois o RNTextInputProps já inclui todas elas.
 }
 
 const TextInput: React.FC<TextInputProps> = ({
   label,
-  placeholder,
-  value,
-  onChangeText,
   icon,
   secureTextEntry = false,
   showPassword = false,
   onTogglePassword,
   error,
-  keyboardType = 'default',
-  editable = true,
   style,
+  ...rest // coleta TODAS as outras propriedades nativas (como autoCapitalize, keyboardType, value, etc.)
 }) => {
   return (
     <View style={[styles.container, style]}>
@@ -48,13 +45,9 @@ const TextInput: React.FC<TextInputProps> = ({
         
         <RNTextInput
           style={styles.input}
-          placeholder={placeholder}
           placeholderTextColor={colors.gray}
-          value={value}
-          onChangeText={onChangeText}
           secureTextEntry={secureTextEntry && !showPassword}
-          keyboardType={keyboardType}
-          editable={editable}
+          {...rest} // isso joga o autoCapitalize e o resto direto no input nativo!
         />
         
         {secureTextEntry && onTogglePassword && (

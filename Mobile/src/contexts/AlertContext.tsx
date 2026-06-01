@@ -12,7 +12,6 @@ export const AlertProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const fetchAlerts = async () => {
     try {
       setIsLoading(true);
-      // Using mock data for now
       const mockAlerts = satelliteService.generateMockAlerts();
       setAlerts(mockAlerts);
     } catch (error) {
@@ -22,7 +21,7 @@ export const AlertProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   };
 
-  const selectAlert = (alert: Alert) => {
+  const selectAlert = (alert: Alert | null) => {
     setSelectedAlert(alert);
   };
 

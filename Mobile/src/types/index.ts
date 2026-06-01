@@ -73,6 +73,9 @@ export interface Alert {
 export interface AlertContextType {
   alerts: Alert[];
   isLoading: boolean;
+  selectedAlert: Alert | null; // <-- Adicionado para guardar o alerta clicado
   fetchAlerts: () => Promise<void>;
+  selectAlert: (alert: Alert | null) => void; // <-- Adicionado para abrir/fechar detalhes
   acknowledgeAlert: (alertId: string) => Promise<void>;
+  clearAlerts: () => void; // <-- Adicionado para limpar o estado
 }
