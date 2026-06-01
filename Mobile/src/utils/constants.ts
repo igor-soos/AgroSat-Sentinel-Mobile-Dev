@@ -1,9 +1,9 @@
 // API Endpoints
-export const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL || 'http://10.0.2.2:3000';
+export const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL || 'http://10.0.2.2:3000/api';
 export const API_TIMEOUT = process.env.EXPO_PUBLIC_API_TIMEOUT 
   ? parseInt(process.env.EXPO_PUBLIC_API_TIMEOUT, 10) 
   : 10000;
-  
+
 // Storage keys
 export const STORAGE_KEYS = {
   USER_TOKEN: '@agrosat_user_token',
