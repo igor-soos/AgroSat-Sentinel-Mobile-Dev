@@ -1,5 +1,18 @@
 // API Endpoints
-export const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL || 'http://10.0.2.2:3000/api';
+import { Platform } from 'react-native';
+
+const getApiBaseUrl = () => {
+  // Se rodar no navegador (Web), força o uso do localhost independente do .env
+  if (Platform.OS === 'web') {
+    return 'http://localhost:3000/api';
+  }
+  
+  // Se rodar no Android/iOS, usa o .env ou o fallback padrão do emulador
+  return process.env.EXPO_PUBLIC_API_BASE_URL || 'http://10.0.2.2:3000/api';
+};
+
+export const API_BASE_URL = getApiBaseUrl();
+
 export const API_TIMEOUT = process.env.EXPO_PUBLIC_API_TIMEOUT 
   ? parseInt(process.env.EXPO_PUBLIC_API_TIMEOUT, 10) 
   : 10000;
