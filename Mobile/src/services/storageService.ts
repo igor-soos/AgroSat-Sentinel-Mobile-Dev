@@ -16,17 +16,8 @@ class StorageService {
     try {
       return await AsyncStorage.getItem(STORAGE_KEYS.USER_TOKEN);
     } catch (error) {
-      console.error('Error retrieving token:', error);
+      console.error('Error getting token:', error);
       return null;
-    }
-  }
-
-  async removeUserToken(): Promise<void> {
-    try {
-      await AsyncStorage.removeItem(STORAGE_KEYS.USER_TOKEN);
-    } catch (error) {
-      console.error('Error removing token:', error);
-      throw error;
     }
   }
 
@@ -44,26 +35,26 @@ class StorageService {
       const data = await AsyncStorage.getItem(STORAGE_KEYS.USER_DATA);
       return data ? JSON.parse(data) : null;
     } catch (error) {
-      console.error('Error retrieving user data:', error);
+      console.error('Error getting user data:', error);
       return null;
     }
   }
 
-  async removeUserData(): Promise<void> {
+  async setAlertCache(alerts: any[]): Promise<void> {
     try {
-      await AsyncStorage.removeItem(STORAGE_KEYS.USER_DATA);
+      await AsyncStorage.setItem(STORAGE_KEYS.ALERTS_CACHE, JSON.stringify(alerts));
     } catch (error) {
-      console.error('Error removing user data:', error);
-      throw error;
+      console.error('Error saving alerts cache:', error);
     }
   }
 
-  async clearAll(): Promise<void> {
+  async getAlertCache(): Promise<any[] | null> {
     try {
-      await AsyncStorage.multiRemove(Object.values(STORAGE_KEYS));
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.ALERTS_CACHE);
+      return data ? JSON.parse(data) : null;
     } catch (error) {
-      console.error('Error clearing storage:', error);
-      throw error;
+      console.error('Error getting alerts cache:', error);
+      return null;
     }
   }
 
@@ -72,17 +63,39 @@ class StorageService {
       await AsyncStorage.setItem(STORAGE_KEYS.FAVORITES, JSON.stringify(favorites));
     } catch (error) {
       console.error('Error saving favorites:', error);
+    }
+  }
+
+  async getFavorites(): Promise<string[] | null> {
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.FAVORITES);
+      return data ? JSON.parse(data) : null;
+    } catch (error) {
+      console.error('Error getting favorites:', error);
+      return null;
+    }
+  }
+
+  async clearAll(): Promise<void> {
+    try {
+      await AsyncStorage.multiRemove([
+        STORAGE_KEYS.USER_TOKEN,
+        STORAGE_KEYS.USER_DATA,
+        STORAGE_KEYS.ALERTS_CACHE,
+        STORAGE_KEYS.FAVORITES,
+        STORAGE_KEYS.SETTINGS,
+      ]);
+    } catch (error) {
+      console.error('Error clearing storage:', error);
       throw error;
     }
   }
 
-  async getFavorites(): Promise<string[]> {
+  async removeItem(key: string): Promise<void> {
     try {
-      const data = await AsyncStorage.getItem(STORAGE_KEYS.FAVORITES);
-      return data ? JSON.parse(data) : [];
+      await AsyncStorage.removeItem(key);
     } catch (error) {
-      console.error('Error retrieving favorites:', error);
-      return [];
+      console.error('Error removing item:', error);
     }
   }
 }

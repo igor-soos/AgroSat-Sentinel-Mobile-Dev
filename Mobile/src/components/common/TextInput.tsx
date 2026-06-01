@@ -1,71 +1,74 @@
-import React, { useState } from 'react';
-import {
-  View,
-  TextInput as RNTextInput,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TextInputProps,
-} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
+import { View, TextInput as RNTextInput, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { colors } from '@/utils/colors';
+import { Ionicons } from '@expo/vector-icons';
 
-interface CustomTextInputProps extends TextInputProps {
+interface TextInputProps {
   label?: string;
-  error?: string;
-  icon?: string;
+  placeholder?: string;
+  value: string;
+  onChangeText: (text: string) => void;
+  icon?: any; 
+  secureTextEntry?: boolean;
   showPassword?: boolean;
   onTogglePassword?: () => void;
+  error?: string;
+  keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
+  editable?: boolean;
+  style?: any;
 }
 
-const TextInput: React.FC<CustomTextInputProps> = ({
+const TextInput: React.FC<TextInputProps> = ({
   label,
-  error,
+  placeholder,
+  value,
+  onChangeText,
   icon,
+  secureTextEntry = false,
   showPassword = false,
   onTogglePassword,
-  secureTextEntry,
-  ...props
+  error,
+  keyboardType = 'default',
+  editable = true,
+  style,
 }) => {
-  const [isFocused, setIsFocused] = useState(false);
-
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       {label && <Text style={styles.label}>{label}</Text>}
-      <View
-        style={[
-          styles.inputContainer,
-          isFocused && styles.inputContainerFocused,
-          error && styles.inputContainerError,
-        ]}
-      >
+      
+      <View style={[styles.inputWrapper, error && styles.inputWrapperError]}>
         {icon && (
           <Ionicons
-            name={icon as any}
+            name={icon}
             size={20}
-            color={colors.primary}
+            color={error ? '#ff6b6b' : colors.primary}
             style={styles.icon}
           />
         )}
+        
         <RNTextInput
-          {...props}
-          secureTextEntry={secureTextEntry && !showPassword}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
           style={styles.input}
+          placeholder={placeholder}
           placeholderTextColor={colors.gray}
+          value={value}
+          onChangeText={onChangeText}
+          secureTextEntry={secureTextEntry && !showPassword}
+          keyboardType={keyboardType}
+          editable={editable}
         />
-        {secureTextEntry && (
-          <TouchableOpacity onPress={onTogglePassword}>
+        
+        {secureTextEntry && onTogglePassword && (
+          <TouchableOpacity onPress={onTogglePassword} style={styles.eyeIcon}>
             <Ionicons
-              name={showPassword ? 'eye' : 'eye-off'}
+              name={showPassword ? 'eye-off-outline' : 'eye-outline'}
               size={20}
               color={colors.gray}
             />
           </TouchableOpacity>
         )}
       </View>
-      {error && <Text style={styles.error}>{error}</Text>}
+      
+      {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );
 };
@@ -75,12 +78,12 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   label: {
-    color: colors.lightGray,
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: '600',
+    color: colors.white,
     marginBottom: 8,
   },
-  inputContainer: {
+  inputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: colors.darkGray,
@@ -88,14 +91,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.darkGray,
     paddingHorizontal: 12,
-    height: 48,
+    paddingVertical: 12,
   },
-  inputContainerFocused: {
-    borderColor: colors.primary,
-    backgroundColor: colors.darkerGray,
-  },
-  inputContainerError: {
-    borderColor: colors.error,
+  inputWrapperError: {
+    borderColor: '#ff6b6b',
   },
   icon: {
     marginRight: 8,
@@ -103,11 +102,14 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     color: colors.white,
-    fontSize: 14,
+    fontSize: 16,
   },
-  error: {
-    color: colors.error,
+  eyeIcon: {
+    marginLeft: 8,
+  },
+  errorText: {
     fontSize: 12,
+    color: '#ff6b6b',
     marginTop: 4,
   },
 });

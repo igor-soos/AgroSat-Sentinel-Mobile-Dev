@@ -3,16 +3,15 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
-  ViewStyle,
-  TextStyle,
   ActivityIndicator,
+  ViewStyle,
 } from 'react-native';
 import { colors } from '@/utils/colors';
 
 interface ButtonProps {
   label: string;
   onPress: () => void;
-  variant?: 'primary' | 'secondary' | 'outline';
+  variant?: 'primary' | 'outline' | 'danger';
   size?: 'small' | 'medium' | 'large';
   loading?: boolean;
   disabled?: boolean;
@@ -33,8 +32,8 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <TouchableOpacity
       style={[
-        styles.base,
-        styles[variant],
+        styles.button,
+        styles[`variant_${variant}`],
         styles[`size_${size}`],
         isDisabled && styles.disabled,
         style,
@@ -44,12 +43,15 @@ const Button: React.FC<ButtonProps> = ({
       activeOpacity={0.7}
     >
       {loading ? (
-        <ActivityIndicator color={variant === 'outline' ? colors.primary : colors.white} />
+        <ActivityIndicator
+          color={variant === 'outline' ? colors.primary : colors.white}
+          size="small"
+        />
       ) : (
         <Text
           style={[
             styles.text,
-            styles[`text_${variant}`],
+            styles[`textVariant_${variant}`],
             styles[`textSize_${size}`],
           ]}
         >
@@ -61,49 +63,54 @@ const Button: React.FC<ButtonProps> = ({
 };
 
 const styles = StyleSheet.create({
-  base: {
+  button: {
     borderRadius: 8,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: 44,
   },
-  primary: {
+  // Variants
+  variant_primary: {
     backgroundColor: colors.primary,
   },
-  secondary: {
-    backgroundColor: colors.darkGray,
-  },
-  outline: {
+  variant_outline: {
     backgroundColor: 'transparent',
-    borderWidth: 1.5,
+    borderWidth: 2,
     borderColor: colors.primary,
   },
-  disabled: {
-    opacity: 0.5,
+  variant_danger: {
+    backgroundColor: '#dc3545',
   },
+  // Sizes
   size_small: {
-    paddingVertical: 8,
     paddingHorizontal: 12,
+    paddingVertical: 8,
+    minHeight: 36,
   },
   size_medium: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    minHeight: 44,
   },
   size_large: {
-    paddingVertical: 16,
-    paddingHorizontal: 32,
+    paddingHorizontal: 20,
+    paddingVertical: 14,
+    minHeight: 52,
   },
+  // Text variants
   text: {
     fontWeight: '600',
   },
-  text_primary: {
+  textVariant_primary: {
     color: colors.white,
   },
-  text_secondary: {
-    color: colors.lightGray,
-  },
-  text_outline: {
+  textVariant_outline: {
     color: colors.primary,
   },
+  textVariant_danger: {
+    color: colors.white,
+  },
+  // Text sizes
   textSize_small: {
     fontSize: 12,
   },
@@ -113,6 +120,10 @@ const styles = StyleSheet.create({
   textSize_large: {
     fontSize: 16,
   },
-} as any);
+  // Disabled state
+  disabled: {
+    opacity: 0.5,
+  },
+});
 
 export default Button;

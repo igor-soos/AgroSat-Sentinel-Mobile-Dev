@@ -14,7 +14,7 @@ class ApiClient {
       },
     });
 
-    // Request interceptor - adiciona token em todas as requisições
+    // Request interceptor - adiciona token
     this.client.interceptors.request.use(
       async (config) => {
         const token = await storageService.getUserToken();
@@ -26,21 +26,16 @@ class ApiClient {
       (error) => Promise.reject(error)
     );
 
-    // Response interceptor - trata erros e tokens expirados
+    // Response interceptor - trata erros
     this.client.interceptors.response.use(
       (response) => response,
       async (error: AxiosError) => {
-        // Se for erro 401 (não autorizado), limpa o storage
         if (error.response?.status === 401) {
           await storageService.clearAll();
         }
         return Promise.reject(error);
       }
     );
-  }
-
-  getInstance(): AxiosInstance {
-    return this.client;
   }
 
   async get<T>(url: string, config = {}) {
