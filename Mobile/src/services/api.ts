@@ -50,6 +50,10 @@ class ApiClient {
     return this.client.put<T>(url, data, config);
   }
 
+  async patch<T>(url: string, data?: any, config = {}) {  // ← ADICIONAR ISSO
+    return this.client.patch<T>(url, data, config);
+  }
+
   async delete<T>(url: string, config = {}) {
     return this.client.delete<T>(url, config);
   }

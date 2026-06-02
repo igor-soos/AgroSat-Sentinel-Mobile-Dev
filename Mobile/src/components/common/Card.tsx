@@ -4,39 +4,37 @@ import { colors } from '@/utils/colors';
 
 interface CardProps {
   children: React.ReactNode;
+  variant?: 'default' | 'alert';
   style?: ViewStyle;
-  variant?: 'default' | 'alert' | 'highlight';
 }
 
-const Card: React.FC<CardProps> = ({ children, style, variant = 'default' }) => {
+const Card: React.FC<CardProps> = ({ children, variant = 'default', style }) => {
   return (
-    <View style={[styles.base, styles[variant], style]}>
+    <View
+      style={[
+        styles.card,
+        variant === 'alert' && styles.cardAlert,
+        style,
+      ]}
+    >
       {children}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  base: {
+  card: {
+    backgroundColor: colors.darkGray,
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
+    borderWidth: 1,
+    borderColor: colors.darkGray,
   },
-  default: {
-    backgroundColor: colors.darkGray,
-    borderLeftWidth: 4,
-    borderLeftColor: colors.primary,
+  cardAlert: {
+    borderColor: colors.alertRed + '30',
+    backgroundColor: colors.alertRed + '10',
   },
-  alert: {
-    backgroundColor: `${colors.alertRed}20`,
-    borderLeftWidth: 4,
-    borderLeftColor: colors.alertRed,
-  },
-  highlight: {
-    backgroundColor: colors.orangeTransparent,
-    borderLeftWidth: 4,
-    borderLeftColor: colors.gold,
-  },
-} as any);
+});
 
 export default Card;

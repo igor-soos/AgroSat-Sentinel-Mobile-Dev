@@ -52,30 +52,68 @@ export interface Property {
   updatedAt: string;
 }
 
+export interface AlertContextType {
+  alerts: Alert[];
+  isLoading: boolean;
+  selectedAlert: Alert | null;
+  fetchAlerts: () => Promise<void>;
+  selectAlert: (alert: Alert | null) => void;
+  acknowledgeAlert: (alertId: string) => Promise<void>;
+  resolveAlert?: (alertId: string) => Promise<void>;
+}
+
+// 1. Tipo para Coordenadas Geográficas (Reutilizável)
+export interface Location {
+  latitude: number;
+  longitude: number;
+}
+
+// 2. Modelo de Alerta Atualizado (Com a propriedade location obrigatória)
 export interface Alert {
   id: string;
-  propertyId: string;
+  propertyId?: string; // opcional se gerado via mock genérico
   type: 'drought' | 'fire' | 'frost' | 'flood';
   severity: 'low' | 'medium' | 'high' | 'critical';
   title: string;
   description: string;
-  latitude: number;
-  longitude: number;
+  location: Location; // <-- Adicionado aqui conforme você pediu!
   ndvi?: number;
   temperature?: number;
   confidence: number;
   status: 'active' | 'acknowledged' | 'resolved';
   timestamp: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
-export interface AlertContextType {
-  alerts: Alert[];
-  isLoading: boolean;
-  selectedAlert: Alert | null; // <-- Adicionado para guardar o alerta clicado
-  fetchAlerts: () => Promise<void>;
-  selectAlert: (alert: Alert | null) => void; // <-- Adicionado para abrir/fechar detalhes
-  acknowledgeAlert: (alertId: string) => Promise<void>;
-  clearAlerts: () => void; // <-- Adicionado para limpar o estado
+// 3. Modelo de Dados NDVI (Índice de Vegetação por Diferença Normalizada)
+export interface NDVIData {
+  latitude: number;
+  longitude: number;
+  currentValue: number;
+  historicalData: {
+    date: string;
+    value: number;
+  }[];
+  status: 'excellent' | 'good' | 'fair' | 'poor';
+}
+
+// 4. Modelo de Anomalia Térmica (Focos de Calor captados por satélites tipo MODIS/INPE)
+export interface ThermalAnomaly {
+  id: string;
+  location: Location;
+  temperature: number; // Em graus Celsius (e.g., 85°C para focos intensos)
+  satellite: string;   // Ex: AQUA, TERRA, NOAA
+  confidence: number;  // Valor de 0 a 1 (ou 0% a 100%)
+  timestamp: string;
+}
+
+// 5. Modelo do Dashboard Consolidado
+export interface Dashboard {
+  totalAlerts: number;
+  activeAlertsCount: number;
+  criticalAlertsCount: number;
+  averageNDVI: number;
+  recentAnomalies: ThermalAnomaly[];
+  recentAlerts: Alert[];
 }

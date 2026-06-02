@@ -1,44 +1,104 @@
 import React, { createContext, useContext, useState } from 'react';
-import { AlertContextType, Alert } from '@/types';
-import { satelliteService } from '@/services/satelliteService';
+import { Alert as AlertType, AlertContextType } from '@/types';
 
 const AlertContext = createContext<AlertContextType | undefined>(undefined);
 
 export const AlertProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [alerts, setAlerts] = useState<Alert[]>([]);
+  const [alerts, setAlerts] = useState<AlertType[]>([
+    {
+      id: '1',
+      propertyId: '1',
+      type: 'drought',
+      severity: 'high',
+      title: 'Seca Detectada',
+      description: 'Baixa umidade do solo detectada na área A',
+      // Ajustado: agrupado em location conforme a nova tipagem
+      location: {
+        latitude: -10.2641,
+        longitude: -55.5012,
+      },
+      ndvi: 0.35,
+      temperature: 32,
+      confidence: 0.92,
+      status: 'active',
+      timestamp: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: '2',
+      propertyId: '1',
+      type: 'fire',
+      severity: 'critical',
+      title: 'Queimada em Progresso',
+      description: 'Temperatura anormal detectada',
+      // Ajustado: agrupado em location conforme a nova tipagem
+      location: {
+        latitude: -10.2700,
+        longitude: -55.5100,
+      },
+      temperature: 85,
+      confidence: 0.95,
+      status: 'active',
+      timestamp: new Date(Date.now() - 3600000).toISOString(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: '3',
+      propertyId: '1',
+      type: 'frost',
+      severity: 'medium',
+      title: 'Geada Possível',
+      description: 'Temperatura em queda para próximas horas',
+      // Ajustado: agrupado em location conforme a nova tipagem
+      location: {
+        latitude: -10.2600,
+        longitude: -55.5000,
+      },
+      temperature: 2,
+      confidence: 0.75,
+      status: 'acknowledged',
+      timestamp: new Date(Date.now() - 7200000).toISOString(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+  ]);
+
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedAlert, setSelectedAlert] = useState<Alert | null>(null);
+  const [selectedAlert, setSelectedAlert] = useState<AlertType | null>(null);
 
   const fetchAlerts = async () => {
     try {
       setIsLoading(true);
-      const mockAlerts = satelliteService.generateMockAlerts();
-      setAlerts(mockAlerts);
+      // TODO: Conectar ao backend
+      await new Promise((resolve) => setTimeout(resolve, 500));
     } catch (error) {
-      console.error('Fetch alerts error:', error);
+      console.error('Error fetching alerts:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const selectAlert = (alert: Alert | null) => {
-    setSelectedAlert(alert);
-  };
-
   const acknowledgeAlert = async (alertId: string) => {
     try {
-      await satelliteService.acknowledgeAlert(alertId);
-      setAlerts(alerts.map(a => 
-        a.id === alertId ? { ...a, status: 'acknowledged' } : a
-      ));
+      // TODO: Chamar backend
+      setAlerts((prev) =>
+        prev.map((alert) =>
+          alert.id === alertId ? { ...alert, status: 'acknowledged' } : alert
+        )
+      );
+      
+      if (selectedAlert?.id === alertId) {
+        setSelectedAlert((prev) => prev ? { ...prev, status: 'acknowledged' } : null);
+      }
     } catch (error) {
-      console.error('Acknowledge alert error:', error);
+      console.error('Error acknowledging alert:', error);
     }
   };
 
-  const clearAlerts = () => {
-    setAlerts([]);
-    setSelectedAlert(null);
+  const selectAlert = (alert: AlertType | null) => {
+    setSelectedAlert(alert);
   };
 
   const value: AlertContextType = {
@@ -46,9 +106,8 @@ export const AlertProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     isLoading,
     selectedAlert,
     fetchAlerts,
-    selectAlert,
     acknowledgeAlert,
-    clearAlerts,
+    selectAlert,
   };
 
   return <AlertContext.Provider value={value}>{children}</AlertContext.Provider>;
