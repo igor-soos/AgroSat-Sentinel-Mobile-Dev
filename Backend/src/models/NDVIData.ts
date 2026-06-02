@@ -6,7 +6,7 @@ export interface NDVIData {
   value: number;
   classification: 'water' | 'barren' | 'sparse' | 'moderate' | 'dense';
   timestamp: string;
-  source: 'sentinel2' | 'landsat8';
+  source: 'sentinel2' | 'landsat8'  | 'nasa-hls';
   createdAt: string;
 }
 
