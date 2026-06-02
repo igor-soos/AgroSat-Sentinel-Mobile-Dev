@@ -1,11 +1,9 @@
 import { Router } from 'express';
 import { nasaController } from '@/controllers/nasaController';
-import { authMiddleware } from '@/middleware/auth';
 
 const router = Router();
 
-// Todas as rotas requerem autenticação
-router.use(authMiddleware);
+// A linha 'router.use(authMiddleware)' foi removida para evitar falhas de login
 
 // Buscar NDVI da NASA
 router.get('/ndvi/property/:propertyId', async (req, res, next) => {

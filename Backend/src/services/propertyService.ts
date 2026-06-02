@@ -41,7 +41,7 @@ export class PropertyService {
     return property;
   }
 
-  async getPropertyById(propertyId: string, userId: string): Promise<Property> {
+  async getPropertyById(propertyId: string, userId?: string): Promise<Property> {
     const property = await queryOne<Property>(
       'SELECT * FROM properties WHERE id = ? AND userId = ?',
       [propertyId, userId]

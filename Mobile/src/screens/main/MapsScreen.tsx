@@ -164,7 +164,7 @@ const MapsScreen: React.FC<MapsScreenProps> = ({ navigation }) => {
         </View>
 
         {/* Update Info */}
-        <Card variant="highlight">
+        <Card variant="alert">
           <View style={styles.updateInfo}>
             <Ionicons name="information-circle" size={20} color={colors.gold} />
             <View style={styles.updateText}>

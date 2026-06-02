@@ -5,7 +5,7 @@ import { execute, query } from '@/database/db';
 const router = Router();
 
 // Endpoint para criar dados de teste
-router.post('/seed', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const userId = uuidv4();
     const propertyId = uuidv4();
