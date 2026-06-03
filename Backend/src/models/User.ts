@@ -4,7 +4,6 @@ export interface User {
   username: string;
   fullName: string;
   password: string;
-  role: 'farmer' | 'analyst' | 'admin' | 'civil_defense';
   avatar?: string;
   latitude?: number;
   longitude?: number;
@@ -24,7 +23,6 @@ export interface RegisterRequest {
   password: string;
   fullName: string;
   username: string;
-  role: User['role'];
   cpf?: string;
   phone?: string;
 }

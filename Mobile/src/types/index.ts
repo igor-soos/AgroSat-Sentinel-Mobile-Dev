@@ -3,7 +3,6 @@ export interface User {
   email: string;
   username: string;
   fullName: string;
-  role: 'farmer' | 'analyst' | 'admin' | 'civil_defense';
   avatar?: string;
   latitude?: number;
   longitude?: number;
@@ -27,7 +26,6 @@ export interface RegisterRequest {
   password: string;
   fullName: string;
   username: string;
-  role: User['role'];
 }
 
 export interface AuthContextType {

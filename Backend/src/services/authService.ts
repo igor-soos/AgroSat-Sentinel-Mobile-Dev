@@ -12,7 +12,7 @@ import {
 export class AuthService {
   async register(data: RegisterRequest): Promise<AuthResponse> {
     // Validate input
-    validateRegisterRequest(data.email, data.password, data.fullName, data.username, data.role);
+    validateRegisterRequest(data.email, data.password, data.fullName, data.username);
 
     // Check if email already exists
     const existingEmailUser = await queryOne<User>(
@@ -41,9 +41,9 @@ export class AuthService {
 
     // Create user
     await execute(
-      `INSERT INTO users (id, email, username, fullName, password, role, createdAt, updatedAt)
+      `INSERT INTO users (id, email, username, fullName, password, createdAt, updatedAt)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [userId, data.email, data.username, data.fullName, hashedPassword, data.role, now, now]
+      [userId, data.email, data.username, data.fullName, hashedPassword, now, now]
     );
 
     // Get created user
@@ -57,13 +57,11 @@ export class AuthService {
     const token = tokenService.generateAccessToken({
       userId: user.id,
       email: user.email,
-      role: user.role,
     });
 
     const refreshToken = tokenService.generateRefreshToken({
       userId: user.id,
       email: user.email,
-      role: user.role,
     });
 
     const { password, ...userResponse } = user;
@@ -97,13 +95,11 @@ export class AuthService {
     const token = tokenService.generateAccessToken({
       userId: user.id,
       email: user.email,
-      role: user.role,
     });
 
     const refreshToken = tokenService.generateRefreshToken({
       userId: user.id,
       email: user.email,
-      role: user.role,
     });
 
     const { password: _, ...userResponse } = user;
@@ -173,7 +169,6 @@ export class AuthService {
     const token = tokenService.generateAccessToken({
       userId: user.id,
       email: user.email,
-      role: user.role,
     });
 
     const { password, ...userResponse } = user;

@@ -23,7 +23,6 @@ export const validateRegisterRequest = (
   password: string,
   fullName: string,
   username: string,
-  role: string
 ): void => {
   if (!fullName || fullName.trim().length < 3) {
     throw new ValidationError('Nome completo deve ter pelo menos 3 caracteres');
@@ -34,11 +33,6 @@ export const validateRegisterRequest = (
   }
 
   validateLoginRequest(email, password);
-
-  const validRoles = ['farmer', 'analyst', 'admin', 'civil_defense'];
-  if (!validRoles.includes(role)) {
-    throw new ValidationError('Role inválido');
-  }
 };
 
 export const validatePropertyRequest = (

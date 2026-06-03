@@ -4,7 +4,6 @@ import { UnauthorizedError } from '@/utils/errors';
 export interface TokenPayload {
   userId: string;
   email: string;
-  role: string;
 }
 
 export class TokenService {

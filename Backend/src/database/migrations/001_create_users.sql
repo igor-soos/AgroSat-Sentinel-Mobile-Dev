@@ -4,7 +4,6 @@ CREATE TABLE IF NOT EXISTS users (
   username TEXT UNIQUE NOT NULL,
   fullName TEXT NOT NULL,
   password TEXT NOT NULL,
-  role TEXT NOT NULL CHECK(role IN ('farmer', 'analyst', 'admin', 'civil_defense')),
   avatar TEXT,
   latitude REAL,
   longitude REAL,

@@ -22,13 +22,6 @@ export const ERROR_MESSAGES = {
   ALERT_NOT_FOUND: 'Alerta não encontrado',
 };
 
-export const USER_ROLES = {
-  FARMER: 'farmer',
-  ANALYST: 'analyst',
-  ADMIN: 'admin',
-  CIVIL_DEFENSE: 'civil_defense',
-} as const;
-
 export const ALERT_TYPES = {
   DROUGHT: 'drought',
   FIRE: 'fire',

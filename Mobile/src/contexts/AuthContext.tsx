@@ -58,12 +58,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = async () => {
     try {
-      setIsLoading(true);
       await authService.logout();
-      setUser(null);
     } catch (error) {
       console.error('Logout context error:', error);
     } finally {
+      // Garante que o usuário seja limpo e a tela mude instantaneamente
+      setUser(null);
       setIsLoading(false);
     }
   };

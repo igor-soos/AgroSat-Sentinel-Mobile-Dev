@@ -28,17 +28,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onNavigateToLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [role, setRole] = useState<User['role']>('farmer');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const { register, isLoading } = useAuth();
-
-  const roles: { label: string; value: User['role']; icon: string }[] = [
-    { label: 'Produtor', value: 'farmer', icon: 'leaf' },
-    { label: 'Analista', value: 'analyst', icon: 'bar-chart' },
-    { label: 'Defesa Civil', value: 'civil_defense', icon: 'alert-circle' },
-  ];
 
   const validateForm = (): boolean => {
     const newErrors: { [key: string]: string } = {};
@@ -82,7 +75,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onNavigateToLogin }) => {
         password,
         fullName,
         username,
-        role,
       });
       // Clear form on success
       setFullName('');
@@ -90,7 +82,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onNavigateToLogin }) => {
       setEmail('');
       setPassword('');
       setConfirmPassword('');
-      setRole('farmer');
       setShowPassword(false);
       setShowConfirmPassword(false);
     } catch (error: any) {
@@ -140,38 +131,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onNavigateToLogin }) => {
         error={errors.email}
         editable={!isLoading}
       />
-
-      {/* Role Selection */}
-      <View style={styles.roleSection}>
-        <Text style={styles.roleLabel}>Selecione seu Perfil</Text>
-        <View style={styles.roleContainer}>
-          {roles.map((r) => (
-            <TouchableOpacity
-              key={r.value}
-              style={[
-                styles.roleButton,
-                role === r.value && styles.roleButtonActive,
-              ]}
-              onPress={() => setRole(r.value)}
-              disabled={isLoading}
-            >
-              <Ionicons
-                name={r.icon as any}
-                size={20}
-                color={role === r.value ? colors.white : colors.gray}
-              />
-              <Text
-                style={[
-                  styles.roleButtonText,
-                  role === r.value && styles.roleButtonTextActive,
-                ]}
-              >
-                {r.label}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
 
       {/* Password Input */}
       <TextInput
@@ -236,46 +195,6 @@ const styles = StyleSheet.create({
     color: colors.lightGray,
     marginBottom: 24,
     lineHeight: 20,
-  },
-
-  // Role Selection
-  roleSection: {
-    marginBottom: 24,
-  },
-  roleLabel: {
-    color: colors.lightGray,
-    fontSize: 14,
-    fontWeight: '500',
-    marginBottom: 12,
-  },
-  roleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 10,
-  },
-  roleButton: {
-    flex: 1,
-    alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 8,
-    backgroundColor: colors.darkGray,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: colors.darkGray,
-  },
-  roleButtonActive: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-  },
-  roleButtonText: {
-    color: colors.gray,
-    fontSize: 11,
-    fontWeight: '500',
-    marginTop: 6,
-    textAlign: 'center',
-  },
-  roleButtonTextActive: {
-    color: colors.white,
   },
 
   // Button Styles

@@ -32,8 +32,6 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  // 🔒 Deixamos o estado travado em 'farmer' para manter a compatibilidade com o backend
-  const [role] = useState<User['role']>('farmer');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -81,7 +79,6 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
         password,
         fullName,
         username,
-        role,
       });
     } catch (error: any) {
       Alert.alert('Erro', error.message || 'Erro ao criar conta');

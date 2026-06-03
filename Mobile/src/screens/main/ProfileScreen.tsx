@@ -26,20 +26,12 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
       'Sair',
       'Tem certeza que deseja sair?',
       [
-        {
-          text: 'Cancelar',
-          style: 'cancel',
-        },
+        { text: 'Cancelar', style: 'cancel' },
         {
           text: 'Sair',
           onPress: async () => {
             try {
               await logout();
-              // Reseta o histórico de navegação enviando o usuário de volta para o Login
-              navigation.reset({
-                index: 0,
-                routes: [{ name: 'Login' }],
-              });
             } catch (error) {
               console.error('Erro ao deslogar:', error);
             }
