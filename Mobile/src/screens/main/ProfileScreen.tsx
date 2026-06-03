@@ -21,16 +21,6 @@ interface ProfileScreenProps {
 const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const { user, logout } = useAuth();
 
-  const getRoleLabel = (role: string) => {
-    const labels: { [key: string]: string } = {
-      farmer: 'Produtor Rural',
-      analyst: 'Analista de Dados',
-      civil_defense: 'Defesa Civil',
-      admin: 'Administrador',
-    };
-    return labels[role] || role;
-  };
-
   const handleLogout = () => {
     Alert.alert(
       'Sair',
@@ -43,7 +33,16 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         {
           text: 'Sair',
           onPress: async () => {
-            await logout();
+            try {
+              await logout();
+              // Reseta o histórico de navegação enviando o usuário de volta para o Login
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'Login' }],
+              });
+            } catch (error) {
+              console.error('Erro ao deslogar:', error);
+            }
           },
           style: 'destructive',
         },
@@ -78,10 +77,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
             <View style={styles.profileInfo}>
               <Text style={styles.name}>{user?.fullName || 'Usuário'}</Text>
               <Text style={styles.email}>{user?.email}</Text>
-              <View style={styles.roleBadge}>
-                <Ionicons name="checkmark-circle" size={12} color={colors.primary} />
-                <Text style={styles.roleText}>{getRoleLabel(user?.role || 'farmer')}</Text>
-              </View>
             </View>
           </View>
         </Card>
@@ -116,17 +111,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
               </View>
             </View>
           </Card>
-          <Card>
-            <View style={styles.accountItem}>
-              <View style={styles.accountIcon}>
-                <Ionicons name="person-circle" size={20} color={colors.primary} />
-              </View>
-              <View style={styles.accountInfo}>
-                <Text style={styles.accountLabel}>Tipo de Usuário</Text>
-                <Text style={styles.accountValue}>{getRoleLabel(user?.role || 'farmer')}</Text>
-              </View>
-            </View>
-          </Card>
         </View>
 
         {/* Settings Section */}
@@ -150,7 +134,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
           <Text style={styles.infoTitle}>AgroSat Sentinel</Text>
           <Text style={styles.version}>Versão 1.0.0</Text>
           <Text style={styles.copyright}>
-            © 2024 AgroSat Sentinel. Tecnologia de sensoriamento remoto para proteção agrícola.
+            © 2026 AgroSat Sentinel. Tecnologia de sensoriamento remoto para proteção agrícola.
           </Text>
         </View>
 
@@ -211,21 +195,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.gray,
     marginTop: 4,
-  },
-  roleBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    marginTop: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    backgroundColor: colors.darkerGray,
-    borderRadius: 12,
-  },
-  roleText: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: colors.primary,
   },
   statsContainer: {
     flexDirection: 'row',

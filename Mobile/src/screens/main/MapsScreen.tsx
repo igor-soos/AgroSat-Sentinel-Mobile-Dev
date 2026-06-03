@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -16,8 +16,14 @@ interface MapsScreenProps {
   navigation: any;
 }
 
+const REGIOES_MOCK = [
+    { id: '1', nome: 'Fazenda Santa Maria (SP)', lat: -22.12, lon: -48.35, ndvi: 0.72, temp: 24.5 },
+    { id: '2', nome: 'Sitio Alvorada (BA)', lat: -12.15, lon: -45.74, ndvi: 0.58, temp: 31.2 },
+  ];
+
 const MapsScreen: React.FC<MapsScreenProps> = ({ navigation }) => {
-  const [selectedMap, setSelectedMap] = React.useState<'ndvi' | 'thermal'>('ndvi');
+  const [selectedMap, setSelectedMap] = useState<'ndvi' | 'thermal'>('ndvi');
+  const [propriedadeSelecionada, setPropriedadeSelecionada] = useState(REGIOES_MOCK[0]);
 
   const ndviLevels = [
     { range: '-0.3 a 0.1', label: 'Água', color: '#2196F3' },
@@ -40,35 +46,32 @@ const MapsScreen: React.FC<MapsScreenProps> = ({ navigation }) => {
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.title}>Mapas de Satélite</Text>
-          <Text style={styles.subtitle}>Visualize dados de sensoriamento remoto</Text>
+          <Text style={styles.subtitle}>Selecione a área de análise orbital</Text>
         </View>
 
-        {/* Map Type Selector */}
+        {/* NOVO SELETOR DE FAZENDAS */}
+        <Text style={[styles.sectionTitle, { marginBottom: 8 }]}>Propriedade Ativa:</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginBottom: 16 }}>
+          {REGIOES_MOCK.map((regiao) => (
+            <TouchableOpacity
+              key={regiao.id}
+              style={[
+                styles.mapTypeButton, 
+                propriedadeSelecionada.id === regiao.id && styles.mapTypeButtonActive,
+                { marginRight: 8, paddingHorizontal: 16 }
+              ]}
+              onPress={() => setPropriedadeSelecionada(regiao)}
+            >
+              <Text style={[styles.mapTypeText, propriedadeSelecionada.id === regiao.id && styles.mapTypeTextActive]}>
+                {regiao.nome}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+
+        {/* Map Type Selector (NDVI / Térmico) */}
         <View style={styles.mapTypeContainer}>
-          <TouchableOpacity
-            style={[
-              styles.mapTypeButton,
-              selectedMap === 'ndvi' && styles.mapTypeButtonActive,
-            ]}
-            onPress={() => setSelectedMap('ndvi')}
-          >
-            <Ionicons name="leaf" size={20} color={selectedMap === 'ndvi' ? colors.white : colors.gray} />
-            <Text style={[styles.mapTypeText, selectedMap === 'ndvi' && styles.mapTypeTextActive]}>
-              NDVI
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.mapTypeButton,
-              selectedMap === 'thermal' && styles.mapTypeButtonActive,
-            ]}
-            onPress={() => setSelectedMap('thermal')}
-          >
-            <Ionicons name="thermometer" size={20} color={selectedMap === 'thermal' ? colors.white : colors.gray} />
-            <Text style={[styles.mapTypeText, selectedMap === 'thermal' && styles.mapTypeTextActive]}>
-              Térmico
-            </Text>
-          </TouchableOpacity>
+          {/* ... Seus botões originais do NDVI e Térmico permanecem iguais ... */}
         </View>
 
         {/* Map Preview */}

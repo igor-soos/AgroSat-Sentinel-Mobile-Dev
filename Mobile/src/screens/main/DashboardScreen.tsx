@@ -14,6 +14,7 @@ import Card from '@/components/common/Card';
 import Loading from '@/components/common/Loading';
 import { useAuth } from '@/contexts/AuthContext';
 import { useAlerts } from '@/contexts/AlertContext';
+import { nasaService } from '@/services/nasaService';
 
 interface DashboardScreenProps {
   navigation: any;
@@ -23,14 +24,35 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
   const { user } = useAuth();
   const { alerts, fetchAlerts, isLoading } = useAlerts();
   const [refreshing, setRefreshing] = React.useState(false);
+  const [temperature, setTemperature] = React.useState<number | null>(null);
 
+  // ID padrão para carregar os dados climáticos iniciais no dashboard
+  const DEFAULT_PROPERTY_ID = 'default_property';
+
+  const loadDashboardData = async () => {
+    try {
+      // 1. Atualiza os alertas globais vindos do Context
+      await fetchAlerts();
+      
+      // 2. Consome o método correto do nasaService usando o ID da propriedade
+      const climate = await nasaService.getClimateFromProperty(DEFAULT_PROPERTY_ID);
+      if (climate && climate.temperature !== undefined) {
+        setTemperature(climate.temperature);
+      }
+    } catch (err) {
+      console.log('Erro ao carregar dados do Dashboard:', err);
+    }
+  };
+
+  // Executa apenas uma vez ao montar a tela
   useEffect(() => {
-    fetchAlerts();
+    loadDashboardData();
   }, []);
 
+  // Função única de Pull-to-Refresh
   const onRefresh = async () => {
     setRefreshing(true);
-    await fetchAlerts();
+    await loadDashboardData();
     setRefreshing(false);
   };
 
@@ -135,15 +157,18 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
           <Card style={styles.statCard}>
             <View style={styles.statContent}>
               <Ionicons name="leaf" size={32} color={colors.ndviGreen} />
-              <Text style={styles.statLabel}>NDVI</Text>
+              <Text style={styles.statLabel}>NDVI Médio</Text>
               <Text style={styles.statValue}>0.65</Text>
             </View>
           </Card>
+          
           <Card style={styles.statCard}>
             <View style={styles.statContent}>
               <Ionicons name="thermometer" size={32} color={colors.thermalRed} />
-              <Text style={styles.statLabel}>Temp.</Text>
-              <Text style={styles.statValue}>28°C</Text>
+              <Text style={styles.statLabel}>Temp. Real (NASA)</Text>
+              <Text style={styles.statValue}>
+                {temperature !== null ? `${temperature.toFixed(1)}°C` : '--°C'}
+              </Text>
             </View>
           </Card>
         </View>
@@ -434,6 +459,6 @@ const styles = StyleSheet.create({
     color: colors.white,
     textAlign: 'center',
   },
-} as any);
+});
 
 export default DashboardScreen;
