@@ -42,7 +42,7 @@ export class AuthService {
     // Create user
     await execute(
       `INSERT INTO users (id, email, username, fullName, password, createdAt, updatedAt)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [userId, data.email, data.username, data.fullName, hashedPassword, now, now]
     );
 
