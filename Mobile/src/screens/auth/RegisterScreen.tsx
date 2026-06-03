@@ -32,17 +32,12 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [role, setRole] = useState<User['role']>('farmer');
+  // 🔒 Deixamos o estado travado em 'farmer' para manter a compatibilidade com o backend
+  const [role] = useState<User['role']>('farmer');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const { register, isLoading } = useAuth();
-
-  const roles: { label: string; value: User['role']; icon: string }[] = [
-    { label: 'Produtor', value: 'farmer', icon: 'leaf' },
-    { label: 'Analista', value: 'analyst', icon: 'bar-chart' },
-    { label: 'Defesa Civil', value: 'civil_defense', icon: 'alert-circle' },
-  ];
 
   const validateForm = (): boolean => {
     const newErrors: { [key: string]: string } = {};
@@ -145,34 +140,6 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
               error={errors.email}
             />
 
-            <Text style={styles.roleLabel}>Tipo de Usuário</Text>
-            <View style={styles.roleContainer}>
-              {roles.map((r) => (
-                <TouchableOpacity
-                  key={r.value}
-                  style={[
-                    styles.roleButton,
-                    role === r.value && styles.roleButtonActive,
-                  ]}
-                  onPress={() => setRole(r.value)}
-                >
-                  <Ionicons
-                    name={r.icon as any}
-                    size={20}
-                    color={role === r.value ? colors.primary : colors.gray}
-                  />
-                  <Text
-                    style={[
-                      styles.roleButtonText,
-                      role === r.value && styles.roleButtonTextActive,
-                    ]}
-                  >
-                    {r.label}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-
             <TextInput
               label="Senha"
               placeholder="Sua senha"
@@ -204,13 +171,13 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
               loading={isLoading}
               style={styles.submitButton}
             />
-
-            <View style={styles.loginLink}>
-              <Text style={styles.loginLinkText}>Já possui conta? </Text>
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Text style={styles.loginLinkButton}>Faça Login</Text>
-              </TouchableOpacity>
-            </View>
+          </View>
+          
+          <View style={styles.loginLink}>
+            <Text style={styles.loginLinkText}>Já possui conta? </Text>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text style={styles.loginLinkButton}>Faça Login</Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -229,6 +196,7 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     padding: 20,
+    justifyContent: 'space-between',
   },
   backButton: {
     marginBottom: 20,
@@ -247,52 +215,16 @@ const styles = StyleSheet.create({
     color: colors.gray,
   },
   form: {
-    marginBottom: 40,
-  },
-  roleLabel: {
-    color: colors.lightGray,
-    fontSize: 14,
-    fontWeight: '500',
-    marginBottom: 12,
-  },
-  roleContainer: {
-    flexDirection: 'row',
-    marginBottom: 24,
-    gap: 8,
-  },
-  roleButton: {
     flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 8,
-    backgroundColor: colors.darkGray,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: colors.darkGray,
-  },
-  roleButtonActive: {
-    borderColor: colors.primary,
-    backgroundColor: colors.darkerGray,
-  },
-  roleButtonText: {
-    color: colors.gray,
-    fontSize: 11,
-    marginTop: 4,
-    textAlign: 'center',
-  },
-  roleButtonTextActive: {
-    color: colors.primary,
-    fontWeight: '600',
   },
   submitButton: {
-    marginTop: 16,
+    marginTop: 24,
   },
   loginLink: {
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 24,
+    marginBottom: Platform.OS === 'ios' ? 10 : 20,
   },
   loginLinkText: {
     color: colors.gray,

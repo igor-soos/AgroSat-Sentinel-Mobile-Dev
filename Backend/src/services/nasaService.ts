@@ -27,7 +27,8 @@ class NasaService {
    */
   async getNDVIData(latitude: number, longitude: number): Promise<NDVITile[]> {
     try {
-      const response = await axios.get(`${NASA_BASE_URL}/planetary/assets/search`, {
+      // Definimos explicitamente para o Axios que a resposta conterá um objeto com um array opcional 'results'
+      const response = await axios.get<{ results?: any[] }>(`${NASA_BASE_URL}/planetary/assets/search`, {
         params: {
           api_key: NASA_API_KEY,
           bbox: `${longitude - 0.1},${latitude - 0.1},${longitude + 0.1},${latitude + 0.1}`,
@@ -72,7 +73,8 @@ class NasaService {
    */
   async getClimateData(latitude: number, longitude: number): Promise<WeatherData> {
     try {
-      const response = await axios.get(
+      // Definimos para o Axios que a resposta conterá um objeto 'properties' contendo um objeto 'parameter'
+      const response = await axios.get<{ properties?: { parameter?: any } }>(
         `${NASA_BASE_URL}/power/api/v1/climate/regional`,
         {
           params: {
