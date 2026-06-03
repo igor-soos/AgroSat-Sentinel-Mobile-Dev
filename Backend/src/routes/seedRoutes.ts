@@ -13,15 +13,14 @@ router.post('/', async (req, res, next) => {
 
     // 1. Criar usuário teste
     await execute(
-      `INSERT INTO users (id, email, username, fullName, password, role, createdAt, updatedAt)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO users (id, email, username, fullName, password, createdAt, updatedAt)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [
         userId,
         'farmer@test.com',
         'farmerteste',
         'Fazendeiro Teste',
         '$2a$10$abcdefghijklmnopqrstuvwxyz', // Password hash (já hasheado)
-        'farmer',
         now,
         now,
       ]
