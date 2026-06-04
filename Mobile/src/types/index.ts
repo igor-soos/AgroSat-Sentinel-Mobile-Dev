@@ -69,12 +69,13 @@ export interface Location {
 // 2. Modelo de Alerta Atualizado (Com a propriedade location obrigatória)
 export interface Alert {
   id: string;
-  propertyId?: string; // opcional se gerado via mock genérico
-  type: 'drought' | 'fire' | 'frost' | 'flood';
+  propertyId?: string; 
+  type: 'drought' | 'fire' | 'frost' | 'flood' | 'info';
   severity: 'low' | 'medium' | 'high' | 'critical';
   title: string;
   description: string;
-  location: Location; // <-- Adicionado aqui conforme você pediu!
+  message?: string;
+  location: Location;
   ndvi?: number;
   temperature?: number;
   confidence: number;

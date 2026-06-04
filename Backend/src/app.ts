@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { initializeDatabase } from '@/database/db';
 import routes from '@/routes';
 import { errorHandler } from '@/middleware/errorHandler';
+import nasaRoutes from './routes/nasaRoutes';
 
 dotenv.config();
 
@@ -49,6 +50,8 @@ app.use((req: Request, res: Response) => {
     method: req.method,
   });
 });
+
+app.use('/api/nasa', nasaRoutes);
 
 // Initialize database and start server
 async function startServer() {
