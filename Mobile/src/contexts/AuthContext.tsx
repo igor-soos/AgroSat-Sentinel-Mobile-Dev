@@ -13,7 +13,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     bootstrapAsync();
   }, []);
 
-  // Verificar se tem token e dados salvos ao abrir a app
+  // Verificar se tem token e dados salvos ao abrir o app
   const bootstrapAsync = async () => {
     try {
       const token = await storageService.getUserToken();
@@ -34,6 +34,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       setIsLoading(true);
       const response = await authService.login(email, password);
+      // Aqui assumimos que o authService.login já salva no storageService internamente
       setUser(response.user);
     } catch (error) {
       console.error('Login context error:', error);
@@ -56,17 +57,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const logout = async () => {
-    try {
-      await authService.logout();
-    } catch (error) {
-      console.error('Logout context error:', error);
-    } finally {
-      // Garante que o usuário seja limpo e a tela mude instantaneamente
-      setUser(null);
-      setIsLoading(false);
-    }
-  };
+const logout = async () => {
+  try {
+    setIsLoading(true);
+    await authService.logout();
+    
+    // Limpa apenas as credenciais, preservando o cache de mapas/alertas
+    await storageService.removeUserToken();
+    await storageService.removeUserData();
+  } catch (error) {
+    console.error('Logout context error:', error);
+  } finally {
+    setUser(null); // Isso aqui muda a tela instantaneamente!
+    setIsLoading(false);
+  }
+};
 
   const updateUser = async (updatedUser: User) => {
     try {

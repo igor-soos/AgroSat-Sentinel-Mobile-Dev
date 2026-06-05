@@ -98,6 +98,24 @@ class StorageService {
       console.error('Error removing item:', error);
     }
   }
+
+  async removeUserToken(): Promise<void> {
+    try {
+      await AsyncStorage.removeItem(STORAGE_KEYS.USER_TOKEN);
+    } catch (error) {
+      console.error('Error removing token:', error);
+      throw error;
+    }
+  }
+
+  async removeUserData(): Promise<void> {
+    try {
+      await AsyncStorage.removeItem(STORAGE_KEYS.USER_DATA);
+    } catch (error) {
+      console.error('Error removing user data:', error);
+      throw error;
+    }
+  }
 }
 
 export const storageService = new StorageService();
