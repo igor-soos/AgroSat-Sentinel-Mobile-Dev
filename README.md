@@ -3,6 +3,8 @@ AgroSat Sentinel é uma solução tecnológica focada na proteção e monitorame
 
 Nota: Este aplicativo é um protótipo. Funcionalidades centrais como telemetria orbital, autenticação e navegação estão ativas. No entanto, algumas opções (tela de mapa, configurações de conta na tela de perfil e telas de ajuda) são apenas demonstrações visuais que ilustram o potencial de expansão futura da plataforma. Os alertas atualmente na tela de alertas são mocks para ilustrar como alertas reais aparecem, já que em situais normais, não aparecem alertas.
 
+Link de demonstração no YouTube: https://youtube.com/shorts/NkbIHHaAHWQ?si=T9onfnnP5N0OlfDL
+
 ## 🌌 Conexão com o Tema Espacial
 O AgroSat Sentinel traz o poder do espaço para a terra. A solução se conecta ao tema espacial ao utilizar o conceito de sensoriamento remoto orbital.
 
@@ -82,24 +84,33 @@ Siga os passos abaixo para rodar a aplicação localmente na sua máquina.
 
 ### 1. Clonando o repositório
 Bash
+
 git clone https://github.com/SEU_USUARIO/agrosat-sentinel.git
 
 ### 2. Rodando o Backend
 Abra um terminal, acesse a pasta do backend e inicie o servidor local:
 
 Bash
+
 cd Backend
+
 npm install
+
 npm run dev
+
 O backend usará o banco SQLite local (database.sqlite) para gerenciar as propriedades e os usuários.
 
 ### 3. Rodando o Mobile
 Abra outro terminal, acesse a pasta do mobile e inicie o Expo:
 
 Bash
+
 cd Mobile
+
 npm install
+
 npx expo start
+
 Após rodar o comando do Expo, escaneie o QR Code com o aplicativo Expo Go no seu celular (iOS/Android) ou pressione a para rodar no emulador Android, ou i para o simulador iOS.
 
 # 📁 Estrutura do Projeto
