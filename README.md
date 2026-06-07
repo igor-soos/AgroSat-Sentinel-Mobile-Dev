@@ -3,7 +3,7 @@ AgroSat Sentinel é uma solução tecnológica focada na proteção e monitorame
 
 ⚠️ Status do Projeto: Protótipo Conceitual / MVP (Minimum Viable Product).
 
-Nota: Este aplicativo é um protótipo. Funcionalidades centrais como telemetria orbital, autenticação e navegação estão ativas. No entanto, algumas opções (como as configurações de conta na tela de perfil e telas de ajuda) são apenas demonstrações visuais (mockups) que ilustram o potencial de expansão futura da plataforma.
+Nota: Este aplicativo é um protótipo. Funcionalidades centrais como telemetria orbital, autenticação e navegação estão ativas. No entanto, algumas opções (tela de mapa, configurações de conta na tela de perfil e telas de ajuda) são apenas demonstrações visuais que ilustram o potencial de expansão futura da plataforma.
 
 ## 🌌 Conexão com o Tema Espacial
 O AgroSat Sentinel traz o poder do espaço para a terra. A solução se conecta ao tema espacial ao utilizar o conceito de sensoriamento remoto orbital.
@@ -50,6 +50,24 @@ TypeScript
 Banco de Dados SQLite (Estruturado com Migrations)
 
 Arquitetura baseada em rotas, controllers e serviços.
+
+# demonstração de Telas
+
+### Login
+<img width="376" height="560" alt="image" src="https://github.com/user-attachments/assets/02c4ffa3-e120-4a27-956e-ff82fbbba026" />
+<img width="378" height="558" alt="image" src="https://github.com/user-attachments/assets/d07fd5dc-ebf7-4ab9-a939-ce08ebc7ad0a" />
+
+### Registro
+<img width="376" height="569" alt="image" src="https://github.com/user-attachments/assets/604c04ca-16f7-48e6-b65b-aceb3a474a88" />
+<img width="382" height="566" alt="image" src="https://github.com/user-attachments/assets/6b3b31b2-b160-4f1f-8952-d9d9ff8796d3" />
+
+### Dashboard
+<img width="499" height="857" alt="image" src="https://github.com/user-attachments/assets/e1e94d93-52b7-4aa2-9a72-ee137c293348" />
+<img width="501" height="860" alt="image" src="https://github.com/user-attachments/assets/7277ffb2-d7fa-4e49-a05a-70360674338b" />
+
+
+
+
 
 # 🚀 Como Instalar e Executar
 Siga os passos abaixo para rodar a aplicação localmente na sua máquina.
