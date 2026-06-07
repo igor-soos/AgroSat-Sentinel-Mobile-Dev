@@ -65,8 +65,18 @@ Arquitetura baseada em rotas, controllers e serviços.
 <img width="499" height="857" alt="image" src="https://github.com/user-attachments/assets/e1e94d93-52b7-4aa2-9a72-ee137c293348" />
 <img width="501" height="860" alt="image" src="https://github.com/user-attachments/assets/7277ffb2-d7fa-4e49-a05a-70360674338b" />
 
+### Alertas
+<img width="502" height="856" alt="image" src="https://github.com/user-attachments/assets/ff18f3f9-0ded-4005-9aeb-6025fc865526" />
 
+### Mapas
+<img width="497" height="860" alt="image" src="https://github.com/user-attachments/assets/b611663e-13b7-48c4-8abc-f8ae3c103ed5" />
+<img width="499" height="856" alt="image" src="https://github.com/user-attachments/assets/04f64197-a55b-4c36-9749-ef25137704a0" />
+<img width="500" height="856" alt="image" src="https://github.com/user-attachments/assets/79a61d68-c32b-4154-a960-79fcd64f9fa7" />
+<img width="498" height="826" alt="image" src="https://github.com/user-attachments/assets/bdf5ecec-767b-4392-baef-a3476e394fa1" />
 
+### Perfil
+<img width="500" height="861" alt="image" src="https://github.com/user-attachments/assets/17555cde-62d7-4c5f-acbb-5f5ef3eed84f" />
+<img width="503" height="858" alt="image" src="https://github.com/user-attachments/assets/be51da54-27a9-4bd4-b13e-64b6f5ad2172" />
 
 
 # 🚀 Como Instalar e Executar
