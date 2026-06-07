@@ -1,9 +1,7 @@
 # 🛰️ AgroSat Sentinel
 AgroSat Sentinel é uma solução tecnológica focada na proteção e monitoramento inteligente de propriedades agrícolas. Utilizando dados orbitais, o aplicativo entrega telemetria de precisão na palma da mão do produtor rural.
 
-⚠️ Status do Projeto: Protótipo Conceitual / MVP (Minimum Viable Product).
-
-Nota: Este aplicativo é um protótipo. Funcionalidades centrais como telemetria orbital, autenticação e navegação estão ativas. No entanto, algumas opções (tela de mapa, configurações de conta na tela de perfil e telas de ajuda) são apenas demonstrações visuais que ilustram o potencial de expansão futura da plataforma.
+Nota: Este aplicativo é um protótipo. Funcionalidades centrais como telemetria orbital, autenticação e navegação estão ativas. No entanto, algumas opções (tela de mapa, configurações de conta na tela de perfil e telas de ajuda) são apenas demonstrações visuais que ilustram o potencial de expansão futura da plataforma. Os alertas atualmente na tela de alertas são mocks para ilustrar como alertas reais aparecem, já que em situais normais, não aparecem alertas.
 
 ## 🌌 Conexão com o Tema Espacial
 O AgroSat Sentinel traz o poder do espaço para a terra. A solução se conecta ao tema espacial ao utilizar o conceito de sensoriamento remoto orbital.
